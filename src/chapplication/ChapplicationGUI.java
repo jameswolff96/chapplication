@@ -258,6 +258,10 @@ public class ChapplicationGUI extends javax.swing.JFrame {
                  }
             });
             thread.start();
+        }else{
+            typeBox.setVisible(false);
+            sendButton.setVisible(false);
+            setUsername()
         }
     }//GEN-LAST:event_statusButtonMouseReleased
 
