@@ -4,3 +4,5 @@
 /test/
 build.xml
 Manifest.mf
+GitPull.sh
+GitPush.sh
