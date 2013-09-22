@@ -1,6 +1,6 @@
 git pull origin master
 sleep 5s
-git add .
+git add -A
 sleep 5s
 git commit -m "Automated Commit"
 sleep 5s

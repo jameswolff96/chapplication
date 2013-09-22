@@ -261,7 +261,10 @@ public class ChapplicationGUI extends javax.swing.JFrame {
         }else{
             typeBox.setVisible(false);
             sendButton.setVisible(false);
-            setUsername()
+            setUsername("Guest");
+            usernameLabel.setText(username);
+            login.setVisible(false);
+            statusButton.setText("Sign In");
         }
     }//GEN-LAST:event_statusButtonMouseReleased
 
