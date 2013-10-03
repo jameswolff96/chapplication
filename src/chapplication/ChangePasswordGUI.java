@@ -84,6 +84,11 @@ public class ChangePasswordGUI extends javax.swing.JFrame {
 
         cancelButton.setBackground(new java.awt.Color(51, 51, 51));
         cancelButton.setText("Cancel");
+        cancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                cancelButtonMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,6 +181,10 @@ public class ChangePasswordGUI extends javax.swing.JFrame {
     private void confNewPassFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_confNewPassFieldFocusGained
         confNewPassField.selectAll();
     }//GEN-LAST:event_confNewPassFieldFocusGained
+
+    private void cancelButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelButtonMouseReleased
+        this.dispose();
+    }//GEN-LAST:event_cancelButtonMouseReleased
 
     /**
      * @param args the command line arguments

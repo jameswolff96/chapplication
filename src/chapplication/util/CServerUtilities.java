@@ -9,7 +9,12 @@ import java.util.ArrayList;
 public class CServerUtilities implements CUtilities{
 
     @Override
-    public boolean usernameAvaliable(String user) {
+    public boolean usernameExsists(String user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean passwordExsists(String pass) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -20,6 +25,11 @@ public class CServerUtilities implements CUtilities{
 
     @Override
     public ArrayList getUserNames() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList getPasswords() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
