@@ -9,9 +9,15 @@ public interface CUtilities {
     /**
      *
      * @param user
-     * @return returns true if username is not used
+     * @return true if username is used
      */
-    public abstract boolean usernameAvaliable(String user);
+    public abstract boolean usernameExsists(String user);
+    /**
+     *
+     * @param pass
+     * @return true if password is used
+     */
+    public abstract boolean passwordExsists(String pass);
     /**
      *
      * @return ArrayList<String> of usernames and passwords
@@ -22,7 +28,11 @@ public interface CUtilities {
      * @return ArrayList<String> of usernames
      */
     public abstract ArrayList getUserNames();
-
+    /**
+     *
+     * @return ArrayList<String> of passwords
+     */
+    public abstract ArrayList getPasswords();
     /**
      *
      * @param user, pass

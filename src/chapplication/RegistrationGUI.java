@@ -163,21 +163,13 @@ public class RegistrationGUI extends javax.swing.JFrame {
         String user=userField.getText();
         String pass1=passField.getText();
         String pass2=confPassField.getText();
-        if(user.equals("|Username")&&!(ChapplicationGUI.globalData.usernameAvaliable(user))){
-            int confirm = JOptionPane.showOptionDialog(null,"Username invalid","Invalid Input!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if(confirm==JOptionPane.CANCEL_OPTION){
-                this.dispose();
-            }
+        if(user.equals("|Username")&&ChapplicationGUI.globalData.usernameExsists(user)&&user.length()>=6){
+            JOptionPane.showMessageDialog(null,"Username invalid","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
         }else if(!pass1.equals(pass2)){
-            int confirm = JOptionPane.showOptionDialog(null,"Passwords do not match","Invalid Input!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if(confirm==JOptionPane.CANCEL_OPTION){
-                this.dispose();
-            }
-        }else if(pass1.equals("Password|1")){
-            int confirm = JOptionPane.showOptionDialog(null,"Invalid Password","Invalid Input!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if(confirm==JOptionPane.CANCEL_OPTION){
-                this.dispose();
-            }
+            JOptionPane.showMessageDialog(null,"Passwords do not match","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
+        }else if((pass1.equals("Password|1") && ChapplicationGUI.globalData.passwordExsists(pass1))&&(pass1.length() >= 6)){
+            JOptionPane.showMessageDialog(null,"Invalid Password","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
+        } else {
         }
     }//GEN-LAST:event_registerButtonMouseReleased
 

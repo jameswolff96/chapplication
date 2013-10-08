@@ -117,7 +117,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" pref="134" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" pref="142" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="339" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -147,7 +147,7 @@
                       <Component id="jScrollPane2" min="-2" pref="223" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="223" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="74" max="32767" attributes="0"/>
+                  <EmptySpace pref="78" max="32767" attributes="0"/>
               </Group>
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
@@ -161,8 +161,8 @@
                               <Component id="quitButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="sendButton" alignment="0" max="32767" attributes="0"/>
-                          <Component id="typeBox" alignment="0" pref="52" max="32767" attributes="0"/>
+                          <Component id="typeBox" alignment="0" pref="55" max="32767" attributes="0"/>
+                          <Component id="sendButton" alignment="0" pref="55" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

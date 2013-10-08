@@ -3,36 +3,30 @@ package chapplication.util;
  * @author james.wolff
  * @date Sep 18, 2013
  */
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CTextUtilities implements CUtilities{
     private TFileReader tfr;
-    private ArrayList<Object[]> userInfo;
+    private TFileWriter tfw;
+    private ArrayList<String[]> userInfo;
     public CTextUtilities(){
         initUserInfo();
     }
     @Override
-    public boolean usernameAvaliable(String user){
+    public boolean usernameExsists(String user){
         ArrayList<String> userNames=getUserNames();
         for(String s:userNames){
             if(s.equals(user)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
     @Override
     public ArrayList getUserInfo(){
-        TFileReader tfr=new TFileReader("./userinfo.txt");
-        ArrayList<String> users=null;
-        try{
-            users=tfr.readFile();
-        }catch(FileNotFoundException e){
-        }
-        return users;
+        return userInfo;
     }
     @Override
     public ArrayList getUserNames(){
@@ -53,15 +47,11 @@ public class CTextUtilities implements CUtilities{
 
     @Override
     public boolean validPassword(String user, String pass) {
-        String temp;
-        Integer i;
-        for(Object[]o:userInfo){
-            i=(Integer)o[1];
-            temp=(String)o[0];
-            temp=temp.substring(0, i.intValue());
-            if(user.equals(temp)){
-                String temp1=(String)o[0];
-                return pass.equals(temp1.substring(i.intValue()));
+        for(String[] s:userInfo){
+            if(validUsername(user)){
+                if(pass.equals(s[1])){
+                    return true;
+                }
             }
         }
         return false;
@@ -69,42 +59,70 @@ public class CTextUtilities implements CUtilities{
 
     @Override
     public boolean validUsername(String user) {
-        String temp;
-        Integer i;
-        for(Object[]o:userInfo){
-            i=(Integer)o[1];
-            temp=(String)o[0];
-            temp=temp.substring(0, i.intValue());
-            if(user.equals(temp)){
-                
+        for(String[] s:userInfo){
+            if(user.equals(s[0])){
+                return true;
             }
         }
         return false;
+    }
+    public void writeUserInfo(String user, String pass){
+        tfw=new TFileWriter("./userInfo.txt");
+        tfw.write(user+"|"+pass);
     }
     private void initUserInfo(){
         tfr=new TFileReader("./userInfo.txt");
         userInfo=new ArrayList<>();
         ArrayList<String> strings;
-        Object[]o;
+        String[] sa;
         try {
             strings=tfr.readFile();
             for(String s:strings){
-                o=new Object[2];
-                o[0]=s;
+                sa=new String[2];
                 char[] cs=s.toCharArray();
                 int x=0;
                 for(char c:cs){
                     if(c=='|'){
-                        o[1]=new Integer(x);
                         break;
                     }
                     x++;
                 }
-                userInfo.add(o);
+                sa[0]=s.substring(0,x);
+                x++;
+                sa[1]=s.substring(x);
+                userInfo.add(sa);
             }
         } catch (Exception ex) {
             Logger.getLogger(CTextUtilities.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public boolean passwordExsists(String pass) {
+        ArrayList<String> passwords=getPasswords();
+        for(String s:passwords){
+            if(s.equals(pass)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public ArrayList getPasswords() {
+        ArrayList<String> temp=getUserInfo();
+        if(temp==null){
+            return null;
+        }
+        ArrayList<String> passwords=new ArrayList<>();
+        for(String s:temp){
+            int x=0;
+            while(s.charAt(x)!='|'){
+                x++;
+            }
+            passwords.add(s.substring(x+1));
+        }
+        return passwords;
     }
 }
 

@@ -6,7 +6,7 @@ package chapplication;
 
 import chapplication.util.CServerUtilities;
 import chapplication.util.CTextUtilities;
-import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,10 +23,13 @@ public class ChapplicationGUI extends javax.swing.JFrame {
         initComponents();
         typeBox.setVisible(false);
         sendButton.setVisible(false);
-        login=new LoginGUI();
         changePass=new ChangePasswordGUI();
         localData=new CTextUtilities();
         globalData=new CServerUtilities();
+        login=new LoginGUI();
+        userListArray=new ArrayList<>();
+        userListArray.add(userList.getText());
+        setLoggedIn(false);
     }
 
     /**
@@ -177,8 +180,8 @@ public class ChapplicationGUI extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(quitButton)
                             .addGap(0, 0, Short.MAX_VALUE))
-                        .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(typeBox, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                        .addComponent(typeBox, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                        .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
                     .addContainerGap()))
         );
 
@@ -236,6 +239,12 @@ public class ChapplicationGUI extends javax.swing.JFrame {
     public static void setUsername(String name){
         username=name;
     }
+    public static void setLoggedIn(boolean b){
+        loggedIn=b;
+    }
+    public static void joinServer(String server){
+        
+    }
     private void typeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_typeBoxActionPerformed
@@ -249,21 +258,32 @@ public class ChapplicationGUI extends javax.swing.JFrame {
                  @Override
                  public void run(){
                      while(username.equals("Guest"));
-                     typeBox.setVisible(true);
-                     sendButton.setVisible(true);
-                     usernameLabel.setText(username);
-                     login.setVisible(false);
-                     statusButton.setText("Sign Out");
-                     userList.setText(userList.getText()+"\n"+username);
+                     if(loggedIn){
+                         typeBox.setVisible(true);
+                         sendButton.setVisible(true);
+                         usernameLabel.setText(username);
+                         login.setVisible(false);
+                         statusButton.setText("Sign Out");
+                         userListArray.add("\n"+username);
+                         userList.setText("");
+                         for(String s:userListArray){
+                             userList.append(s);
+                         }
+                     }
                  }
             });
             thread.start();
         }else{
             typeBox.setVisible(false);
             sendButton.setVisible(false);
+            userListArray.remove("\n"+username);
+            userList.setText("");
+            for(String s:userListArray){
+                userList.append(s);
+            }
             setUsername("Guest");
+            setLoggedIn(false);
             usernameLabel.setText(username);
-            login.setVisible(false);
             statusButton.setText("Sign In");
         }
     }//GEN-LAST:event_statusButtonMouseReleased
@@ -369,6 +389,8 @@ public class ChapplicationGUI extends javax.swing.JFrame {
     protected static String username;
     protected static CTextUtilities localData;
     protected static CServerUtilities globalData;
+    protected static ArrayList<String> userListArray;
+    protected static boolean loggedIn;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu Menu;
     private javax.swing.JTextArea chatBox;

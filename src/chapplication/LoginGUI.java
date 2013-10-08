@@ -1,6 +1,7 @@
 package chapplication;
 
-import chapplication.util.CUtilities;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  * @author james.wolff
@@ -13,6 +14,13 @@ public class LoginGUI extends javax.swing.JFrame {
      */
     public LoginGUI() {
         initComponents();
+        ArrayList<String[]> userInfo;
+        userInfo = ChapplicationGUI.localData.getUserInfo();
+        if(userInfo.size()>0){
+            userField.setText(userInfo.get(0)[0]);
+            passField.setText(userInfo.get(0)[1]);
+            rememberMeCheckbox.setSelected(true);
+        }
     }
 
     /**
@@ -32,6 +40,7 @@ public class LoginGUI extends javax.swing.JFrame {
         registerButton = new javax.swing.JButton();
         passLabel = new javax.swing.JLabel();
         userLabel = new javax.swing.JLabel();
+        rememberMeCheckbox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Login");
@@ -84,30 +93,46 @@ public class LoginGUI extends javax.swing.JFrame {
 
         userLabel.setText("Username:");
 
+        rememberMeCheckbox.setBackground(new java.awt.Color(153, 153, 153));
+        rememberMeCheckbox.setText("Remember Me?");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 154, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rememberMeCheckbox)
+                .addGap(62, 62, 62))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passField)
-                            .addComponent(userField)
-                            .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(passField)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(loginButton)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(cancelButton))
-                        .addComponent(passLabel)
-                        .addComponent(userLabel))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(loginButton)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cancelButton))
+                                .addComponent(passLabel)
+                                .addComponent(userLabel))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(userField))
+                    .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 156, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 118, Short.MAX_VALUE)
+                .addComponent(rememberMeCheckbox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(registerButton)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -122,9 +147,7 @@ public class LoginGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(cancelButton)
                         .addComponent(loginButton, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(registerButton)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(61, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,10 +169,21 @@ public class LoginGUI extends javax.swing.JFrame {
     private void loginButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginButtonMouseReleased
         String temp=userField.getText();
         String pass=passField.getText();
-        ChapplicationGUI.setUsername(temp);
-//        if(CUtilities.validUsername(temp)&&CUtilities.validPassword(pass)){
-//            
-//        }
+        if(ChapplicationGUI.globalData.validUsername(temp)){
+            if(ChapplicationGUI.globalData.validPassword(temp, pass)){
+                if(rememberMeCheckbox.isSelected()){
+                    if(!ChapplicationGUI.localData.usernameExsists(temp)){
+                        ChapplicationGUI.localData.writeUserInfo(temp,pass);
+                    }
+                }
+                ChapplicationGUI.setLoggedIn(true);
+                ChapplicationGUI.setUsername(temp);
+            }else{
+                JOptionPane.showMessageDialog(null, "Invalid password!", "Incorrect Input!", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Invalid Username!", "Incorrect Input!", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_loginButtonMouseReleased
 
     private void registerButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMouseReleased
@@ -216,6 +250,7 @@ public class LoginGUI extends javax.swing.JFrame {
     private javax.swing.JPasswordField passField;
     private javax.swing.JLabel passLabel;
     private javax.swing.JButton registerButton;
+    private javax.swing.JCheckBox rememberMeCheckbox;
     private javax.swing.JTextField userField;
     private javax.swing.JLabel userLabel;
     // End of variables declaration//GEN-END:variables
