@@ -178,21 +178,19 @@ public class ChangePasswordGUI extends javax.swing.JFrame {
         for (int i=0;i<ca2.length;i++) {
             pass2+=ca2[i];
         }
-        if(Start.localData.validPassword(ChapplicationGUI.getCurrentUser(), pass)){
-            int confirm = JOptionPane.showOptionDialog(null,"Current password invalid","Invalid Input!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if(confirm==JOptionPane.CANCEL_OPTION){
-                this.dispose();
-            }
+        if(!Start.globalData.validPassword(ChapplicationGUI.getCurrentUser(), pass)){
+            JOptionPane.showMessageDialog(null,"Current password invalid","Invalid Input!", JOptionPane.INFORMATION_MESSAGE);
         }else if(!pass1.equals(pass2)){
-            int confirm = JOptionPane.showOptionDialog(null,"Passwords do not match","Invalid Input!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if(confirm==JOptionPane.CANCEL_OPTION){
-                this.dispose();
-            }
+            JOptionPane.showMessageDialog(null,"New Passwords do not match","Invalid Input!", JOptionPane.INFORMATION_MESSAGE);
         }else if(pass1.equals("password|1")){
-            int confirm = JOptionPane.showOptionDialog(null,"Invalid Password","Invalid Input!", JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
-            if(confirm==JOptionPane.CANCEL_OPTION){
-                this.dispose();
-            }
+            JOptionPane.showMessageDialog(null,"New Passsword is Invalid","Invalid Input!", JOptionPane.INFORMATION_MESSAGE);
+        }else if(pass1.length()<6){
+            JOptionPane.showMessageDialog(null,"New Password is too short! It must be at least six (6) characters!","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            Start.globalData.updateUser(ChapplicationGUI.getCurrentUser(), pass, pass1);
+            Start.localData.writeUserInfo(ChapplicationGUI.getCurrentUser(), pass);
+            JOptionPane.showMessageDialog(null,"Your password was updated successfully!","Success!",JOptionPane.INFORMATION_MESSAGE);
+            setVisible(false);
         }
     }//GEN-LAST:event_confirmButtonMouseReleased
 

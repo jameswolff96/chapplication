@@ -30,17 +30,13 @@ public class CTextUtilities implements CUtilities{
     }
     @Override
     public ArrayList getUserNames(){
-        ArrayList<String> temp=getUserInfo();
+        ArrayList<String[]> temp=getUserInfo();
         if(temp==null){
             return null;
         }
         ArrayList<String> userNames=new ArrayList<>();
-        for(String s:temp){
-            int x=0;
-            while(s.charAt(x)!='|'){
-                x++;
-            }
-            userNames.add(s.substring(0, x));
+        for(String[] s:temp){
+            userNames.add(s[0]);
         }
         return userNames;
     }

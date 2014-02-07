@@ -176,6 +176,7 @@ public class RegistrationGUI extends javax.swing.JFrame {
         FrameController.getLg().setVisible(true);
     }//GEN-LAST:event_cancelButtonMouseReleased
 
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
     private void registerButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerButtonMouseReleased
         String user=userTextField.getText();
         char[] ca1=passField.getPassword();
@@ -188,13 +189,22 @@ public class RegistrationGUI extends javax.swing.JFrame {
         for (int i=0;i<ca2.length; i++){
             pass2+=ca2[i];
         }
-        if(user.equals("|Username")&&Start.globalData.usernameExsists(user)&&user.length()>=6){
-            JOptionPane.showMessageDialog(null,"Username invalid","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
+        if(user.equals("|Username")){
+            JOptionPane.showMessageDialog(null,"Username invalid!","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
+        }else if(user.length()<6){
+            JOptionPane.showMessageDialog(null,"Username is too short! It must be at least six (6) characters!","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
+        }else if(Start.globalData.usernameExsists(user)){
+            JOptionPane.showMessageDialog(null,"That username is already taken!","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
         }else if(!pass1.equals(pass2)){
             JOptionPane.showMessageDialog(null,"Passwords do not match","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
-        }else if((pass1.equals("Password|1") && Start.globalData.passwordExsists(pass1))&&(pass1.length() >= 6)){
+        }else if(pass1.equals("Password|1")){
             JOptionPane.showMessageDialog(null,"Invalid Password","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
-        } else {
+        }else if(pass1.length()<6){
+            JOptionPane.showMessageDialog(null,"Password is too short! It must be at least six (6) characters!","Invalid Input!",JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            Start.globalData.addUser(user, pass1);
+            JOptionPane.showMessageDialog(null,"Thank you, "+user+" for registering! Please Login to start using Chapplication!","Success!",JOptionPane.INFORMATION_MESSAGE);
+            cancelButtonMouseReleased(evt);
         }
     }//GEN-LAST:event_registerButtonMouseReleased
 

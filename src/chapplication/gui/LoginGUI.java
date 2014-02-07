@@ -202,6 +202,7 @@ public class LoginGUI extends javax.swing.JFrame {
                 }
                 ChapplicationGUI.setLoggedIn(true);
                 ChapplicationGUI.setUsername(temp);
+                FrameController.getCg().toggleCPMI(true);
             }else{
                 JOptionPane.showMessageDialog(null, "Invalid password!", "Incorrect Input!", JOptionPane.INFORMATION_MESSAGE);
             }

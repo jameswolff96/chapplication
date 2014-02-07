@@ -14,7 +14,7 @@ public class Start {
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
     private static void initVariables(){
         localData=new CTextUtilities();
-        globalData=new CServerUtilities("USER");
+        globalData=new CServerUtilities("USERS");
         new FrameController();
         FrameController.start();
     }
