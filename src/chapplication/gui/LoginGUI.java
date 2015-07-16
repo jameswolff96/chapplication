@@ -1,9 +1,11 @@
 package chapplication.gui;
 
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
 import chapplication.util.FrameController;
 import chapplication.util.Start;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  * @author james.wolff
@@ -203,6 +205,10 @@ public class LoginGUI extends javax.swing.JFrame {
                 ChapplicationGUI.setLoggedIn(true);
                 ChapplicationGUI.setUsername(temp);
                 FrameController.getCg().toggleCPMI(true);
+                synchronized(FrameController.getCg().waitingThread){
+                	FrameController.getCg().waitingThread.notify();
+                }
+                this.setVisible(false);
             }else{
                 JOptionPane.showMessageDialog(null, "Invalid password!", "Incorrect Input!", JOptionPane.INFORMATION_MESSAGE);
             }

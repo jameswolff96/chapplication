@@ -8,6 +8,7 @@
 bin/
 tmp/
 build/
+target/
 *.tmp
 *.bak
 *.swp
@@ -36,6 +37,10 @@ local.properties
 #Ignore build and .class files
 dist/
 build/
+nbproject/
+manifest.mf
+build.xml
+*.png
 *.class
 #################
 ## Visual Studio

@@ -2,6 +2,7 @@ package chapplication.util;
 
 import chapplication.gui.ChangePasswordGUI;
 import chapplication.gui.ChapplicationGUI;
+import chapplication.gui.JoinServerGUI;
 import chapplication.gui.LoginGUI;
 import chapplication.gui.RegistrationGUI;
 
@@ -12,7 +13,7 @@ import chapplication.gui.RegistrationGUI;
 public class FrameController {
     private static ChangePasswordGUI cpg;
     private static ChapplicationGUI cg;
-//    private static JoinServerGUI jsg;
+    private static JoinServerGUI jsg;
     private static LoginGUI lg;
     private static RegistrationGUI rg;
 
@@ -23,7 +24,7 @@ public class FrameController {
     private static void initFrames(){
         cpg=new ChangePasswordGUI();
         cg=new ChapplicationGUI();
-//        jsg=new JoinServerGUI(null);
+        jsg=new JoinServerGUI(null);
         lg=new LoginGUI();
         rg=new RegistrationGUI();
     }
@@ -47,4 +48,8 @@ public class FrameController {
     public static RegistrationGUI getRg(){
         return rg;
     }
+
+	public static JoinServerGUI getJsg() {
+		return jsg;
+	}
 }

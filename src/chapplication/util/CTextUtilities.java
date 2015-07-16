@@ -1,4 +1,6 @@
 package chapplication.util;
+import java.io.File;
+import java.io.IOException;
 /**
  * @author james.wolff
  * @date Sep 18, 2013
@@ -11,7 +13,7 @@ public class CTextUtilities implements CUtilities{
     private TFileReader tfr;
     private TFileWriter tfw;
     private ArrayList<String[]> userInfo;
-    public CTextUtilities(){
+    public CTextUtilities() {
         initUserInfo();
     }
     @Override
@@ -66,7 +68,7 @@ public class CTextUtilities implements CUtilities{
         tfw=new TFileWriter("./userInfo.txt");
         tfw.write(user+"|"+pass);
     }
-    private void initUserInfo(){
+    private void initUserInfo() {
         tfr=new TFileReader("./userInfo.txt");
         userInfo=new ArrayList<>();
         ArrayList<String> strings;
@@ -89,6 +91,12 @@ public class CTextUtilities implements CUtilities{
                 userInfo.add(sa);
             }
         } catch (Exception ex) {
+        	try {
+				new File("userInfo.txt").createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             Logger.getLogger(CTextUtilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

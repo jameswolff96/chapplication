@@ -14,6 +14,11 @@ import javax.swing.JOptionPane;
  */
 public class ChapplicationGUI extends javax.swing.JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9212505495157869751L;
+	public Thread waitingThread;
     /**
      * Creates new form ChapplicationGUI
      */
@@ -39,14 +44,13 @@ public class ChapplicationGUI extends javax.swing.JFrame {
     
     private void postInit(){
         inputTextField.setVisible(false);
-        sendButton.setVisible(false);
+        sendJoinButton.setVisible(false);
         userListArray=new ArrayList<>();
         userListArray.add(userListTextArea.getText());
         setLoggedIn(false);
         fileMenu.remove(changePassMenuItem);
     }
     
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -54,7 +58,7 @@ public class ChapplicationGUI extends javax.swing.JFrame {
         inputTextField = new javax.swing.JTextField();
         statusButton = new javax.swing.JButton();
         usernameLabel = new javax.swing.JLabel();
-        sendButton = new javax.swing.JButton();
+        sendJoinButton = new javax.swing.JButton();
         userListTextAreaScrollPane = new javax.swing.JScrollPane();
         userListTextArea = new javax.swing.JTextArea();
         chatBoxTextAreaScrollPane = new javax.swing.JScrollPane();
@@ -101,8 +105,13 @@ public class ChapplicationGUI extends javax.swing.JFrame {
 
         usernameLabel.setText(username);
 
-        sendButton.setBackground(new java.awt.Color(51, 51, 51));
-        sendButton.setText("Send");
+        sendJoinButton.setBackground(new java.awt.Color(51, 51, 51));
+        sendJoinButton.setText("Join");
+        sendJoinButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        	public void mouseReleased(java.awt.event.MouseEvent evt) {
+        		sendJoinButtonMouseReleased(evt);
+        	}
+        });
 
         userListTextAreaScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -156,7 +165,7 @@ public class ChapplicationGUI extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                     .addComponent(inputTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sendJoinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
         mainPanelLayout.setVerticalGroup(
@@ -179,7 +188,7 @@ public class ChapplicationGUI extends javax.swing.JFrame {
                             .addComponent(quitButton)
                             .addGap(0, 0, Short.MAX_VALUE))
                         .addComponent(inputTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                        .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
+                        .addComponent(sendJoinButton, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
                     .addContainerGap()))
         );
 
@@ -238,14 +247,18 @@ public class ChapplicationGUI extends javax.swing.JFrame {
     private void statusButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusButtonMouseReleased
         if(usernameLabel.getText().equalsIgnoreCase("guest")){
             FrameController.getLg().setVisible(true);
-            new Thread(new Runnable(){
-                 @SuppressWarnings("empty-statement")
+            waitingThread = new Thread(new Runnable(){
                  @Override
                  public void run(){
-                     while(username.equals("Guest"));
+                	 try {
+                         synchronized(waitingThread){
+                             waitingThread.wait();
+                         }
+                     } catch (InterruptedException ex) {
+                     }
                      if(loggedIn){
                          inputTextField.setVisible(true);
-                         sendButton.setVisible(true);
+                         sendJoinButton.setVisible(true);
                          usernameLabel.setText(username);
                          FrameController.getLg().setVisible(false);
                          statusButton.setText("Sign Out");
@@ -253,10 +266,11 @@ public class ChapplicationGUI extends javax.swing.JFrame {
                          userListTextArea.append("\n"+username);
                      }
                  }
-            }).start();
+            });
+            waitingThread.start();
         }else{
             inputTextField.setVisible(false);
-            sendButton.setVisible(false);
+            sendJoinButton.setVisible(false);
             userListArray.remove("\n"+username);
             userListTextArea.setText("");
             for(String s:userListArray){
@@ -312,6 +326,12 @@ public class ChapplicationGUI extends javax.swing.JFrame {
             inputTextField.setText(null);
         }
     }//GEN-LAST:event_inputTextFieldKeyReleased
+    
+    private void sendJoinButtonMouseReleased(java.awt.event.MouseEvent evt) {
+    	if(sendJoinButton.getText().equalsIgnoreCase("join")) {
+    		
+    	}
+    }
 
     private void quitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitMenuItemActionPerformed
         int confirm = JOptionPane.showOptionDialog(null,"Are You Sure to Close this Application?","Exit Confirmation", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -354,7 +374,7 @@ public class ChapplicationGUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JButton quitButton;
     private javax.swing.JMenuItem quitMenuItem;
-    private javax.swing.JButton sendButton;
+    private javax.swing.JButton sendJoinButton;
     private javax.swing.JButton statusButton;
     private javax.swing.JTextArea userListTextArea;
     private javax.swing.JScrollPane userListTextAreaScrollPane;

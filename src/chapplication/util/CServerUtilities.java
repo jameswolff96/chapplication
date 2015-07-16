@@ -16,11 +16,13 @@ import java.util.logging.Logger;
 public class CServerUtilities implements CUtilities{
     private static Connection conn;
     private static Statement stmt;
-    private static String tblName;
-    private static final String DEFAULT_SCHEMA="ROOT_ADMIN";
+    private static String tblName, username, password;
+    private static final String DEFAULT_SCHEMA="chapplication";
     private static ArrayList<String[]> userInfo;
-    public CServerUtilities(String table){
+    public CServerUtilities(String table, String username, String password){
         tblName=table;
+        this.username = username;
+        this.password = password;
         initSeverConnection();
         initUserInfo();
     }
@@ -100,14 +102,14 @@ public class CServerUtilities implements CUtilities{
     
     private void initSeverConnection() {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-            conn=DriverManager.getConnection("jdbc:derby://localhost:1527/chapplication;", "root_admin", "thisisareallylongpassword");
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/", username, password);
+        } catch (SQLException ex) {
             Logger.getLogger(CServerUtilities.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void initUserInfo(){
+    	createTable();
         try {
             userInfo=new ArrayList<>();
             stmt=conn.createStatement();
@@ -122,6 +124,17 @@ public class CServerUtilities implements CUtilities{
         } catch (SQLException ex) {
             Logger.getLogger(CServerUtilities.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void createTable() {
+    	try {
+			stmt = conn.createStatement();
+	    	stmt.executeUpdate("CREATE TABLE "+DEFAULT_SCHEMA+".USERS(userID varchar(255), pass  varchar(255))");
+	    	stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public boolean deleteUser(String user, String pass){

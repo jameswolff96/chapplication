@@ -9,12 +9,11 @@ public class Start {
     public static CServerUtilities globalData;
     
     public static void main(String[] args){
-        initVariables();
+        initVariables(args);
     }
-    @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    private static void initVariables(){
+    private static void initVariables(String[] args){
         localData=new CTextUtilities();
-        globalData=new CServerUtilities("USERS");
+        globalData=new CServerUtilities("USERS", args[0], args[1]);
         new FrameController();
         FrameController.start();
     }
